@@ -1,58 +1,56 @@
-//? dependencies
+//? Dependencies
 const express = require('express')
 
-//? initial configs
+//? Initial configs
 const port = 9000
-const app= express()
+const app = express()
 //? Habilitar recibir formato JSON
 app.use(express.json())
 
-//almacenar database ficticia
-  const todoDB=[]
-  //? TODO
-/* {
-    id:5,
-    title: 'practicar express',
-    description:'Ver videos de apoyo y crear otra API',
-    iscompleted: false
-  }*/
+const todoDB = []
+//? TODO 
+//* {
+//*     id: 5,
+//*     title: 'Practicar express',
+//*     description: 'Ver videos de apoyo y crear otra API',
+//*     is_completed: false
+//* }
 
-  //lamar id global
-  let id=0
+let id = 1
 
-  app.get('/', (req,res)=>{
-    res.json({
-      message:'OK'
-    })
+app.get('/', (req, res) => {
+  res.json({
+    message: 'OK'
   })
+})
 
-//? /todo /todo/:id
-// Rutas de TODO´s
-  app.get('/todo',(req,res)=>{
-    res.status(200).json(todoDB)
-  })
 
-  app.post('/todo',(req,res)=>{
-    const {title, description}=req.body
+//? /todo  /todo/:id
+//? Rutas de TODO's
+app.get('/todo', (req, res) => {
+  res.status(200).json(todoDB)
+})
 
-    if(title && description){
-      const newTodo={
-        id: id++,
-        title,
-        description,
-        is_completed: false
-      }
-      todoDB.push(newTodo)
-      res.status(200).json(newTodo)
-    } else{
-      res.status(400).json({message:'Invalid data'})
+
+app.post('/todo', (req, res) => {
+  //? axios.post('localhost:9000/post', {title: 'hola', description: 'asd'})
+  const { title, description } = req.body
+
+  if (title && description) {
+    const newTodo = {
+      id: id++,
+      title,
+      description,
+      is_completed: false
     }
-  })
+    todoDB.push(newTodo)
+    res.status(200).json(newTodo)
+  } else {
+    res.status(400).json({ message: 'Invalid data' })
+  }
+})
 
 
-
-
-
-app.listen(port,()=>{
+app.listen(port, () => {
   console.log(`Server started at port ${port}`)
 })
